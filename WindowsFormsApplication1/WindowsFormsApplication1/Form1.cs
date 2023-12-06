@@ -18,6 +18,11 @@ namespace WindowsFormsApplication1
         int Rm, Gm, Bm;
         int Rmc, Gmc, Bmc, L = 10;
 
+        int ro1, gr1, bl1, ro2, gr2, bl2, ro3, gr3, bl3;
+        int turno = 1;
+
+        Bitmap original;
+
         public Form1()
         {
             InitializeComponent();
@@ -51,6 +56,8 @@ namespace WindowsFormsApplication1
             if (openFileDialog1.FileName != string.Empty)
             {
                 Bitmap bmp = new Bitmap(openFileDialog1.FileName);
+                original = new Bitmap(openFileDialog1.FileName);
+                original = bmp;
                 pictureBox1.Image = bmp;
             }
         }
@@ -75,88 +82,43 @@ namespace WindowsFormsApplication1
             Bm = c.B;
             Rmc = 0; Gmc = 0; Bmc = 0;
 
-            if (textBox1.Text.Length == 0)
+            if (turno == 1)
             {
-                textBox1.Text = Rm.ToString();
-                textBox2.Text = Gm.ToString();
-                textBox3.Text = Bm.ToString();
+                textBox1.Text = Rm.ToString() + " ";
+                textBox2.Text = Gm.ToString() + " ";
+                textBox3.Text = Bm.ToString() + " ";
+
+                ro1 = Rm;
+                gr1 = Gm;
+                bl1 = Bm;
+
+                turno++;
             }
-            else if (textBox4.Text.Length == 0)
+            else if (turno == 2)
             {
-                textBox4.Text = Rm.ToString();
-                textBox5.Text = Gm.ToString();
-                textBox6.Text = Bm.ToString();
+                textBox1.Text += Rm.ToString() + " ";
+                textBox2.Text += Gm.ToString() + " ";
+                textBox3.Text += Bm.ToString() + " ";
+
+                ro2 = Rm;
+                gr2 = Gm;
+                bl2 = Bm;
+
+                turno++;
             }
 
-            else if (textBox7.Text.Length == 0)
-            {            
-                textBox7.Text = Rm.ToString();
-                textBox8.Text = Gm.ToString();
-                textBox9.Text = Bm.ToString();
+            else if (turno == 3)
+            {
+                textBox1.Text += Rm.ToString() + " ";
+                textBox2.Text += Gm.ToString() + " ";
+                textBox3.Text += Bm.ToString() + " ";
+
+                ro3 = Rm;
+                gr3 = Gm;
+                bl3 = Bm;
+
+                turno = 1;
             }
-            //if (textBox1.Text.Length == 0)
-            //{
-            //    for (int i = e.X - 5; i < e.X + 5; i++)
-            //        for (int j = e.Y - 5; j < e.Y + 5; j++)
-            //        {
-            //            c = bmp.GetPixel(i, j);
-            //            Rmc = Rmc + c.R; Gmc = Gmc + c.G; Bmc = Bmc + c.B;
-            //        }
-            //    Rmc = (int)Rmc / (L * L);
-            //    Gmc = (int)Gmc / (L * L);
-            //    Bmc = (int)Bmc / (L * L);
-
-            //    textBox1.Text = Rmc.ToString();
-            //    textBox2.Text = Gmc.ToString();
-            //    textBox3.Text = Bmc.ToString();
-            //}
-            //else if (textBox4.Text.Length == 0)
-            //{
-            //    for (int i = e.X - 5; i < e.X + 5; i++)
-            //        for (int j = e.Y - 5; j < e.Y + 5; j++)
-            //        {
-            //            c = bmp.GetPixel(i, j);
-            //            Rmc = Rmc + c.R; Gmc = Gmc + c.G; Bmc = Bmc + c.B;
-            //        }
-            //    Rmc = (int)Rmc / (L * L);
-            //    Gmc = (int)Gmc / (L * L);
-            //    Bmc = (int)Bmc / (L * L);
-
-            //    textBox4.Text = Rmc.ToString();
-            //    textBox5.Text = Gmc.ToString();
-            //    textBox6.Text = Bmc.ToString();
-            //}
-
-            //else if (textBox7.Text.Length == 0)
-            //{
-            //    for (int i = e.X - 5; i < e.X + 5; i++)
-            //        for (int j = e.Y - 5; j < e.Y + 5; j++)
-            //        {
-            //            c = bmp.GetPixel(i, j);
-            //            Rmc = Rmc + c.R; Gmc = Gmc + c.G; Bmc = Bmc + c.B;
-            //        }
-            //    Rmc = (int)Rmc / (L * L);
-            //    Gmc = (int)Gmc / (L * L);
-            //    Bmc = (int)Bmc / (L * L);
-
-            //    textBox7.Text = Rmc.ToString();
-            //    textBox8.Text = Gmc.ToString();
-            //    textBox9.Text = Bmc.ToString();
-            //}
-
-            //for(int i=e.X-5;i<e.X+5;i++)
-            //    for (int j = e.Y - 5; j < e.Y + 5; j++)
-            //    {
-            //        c = bmp.GetPixel(i, j);
-            //        Rmc = Rmc + c.R; Gmc = Gmc + c.G; Bmc = Bmc + c.B;
-            //    }
-            //Rmc = (int)Rmc / (L * L);
-            //Gmc = (int)Gmc / (L * L);
-            //Bmc = (int)Bmc / (L * L);
-
-            //textBox1.Text = textBox1.Text + " " + Rmc.ToString();
-            //textBox2.Text = textBox2.Text + " " + Gmc.ToString();
-            //textBox3.Text = textBox3.Text + " " + Bmc.ToString();
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -165,7 +127,7 @@ namespace WindowsFormsApplication1
             con.ConnectionString = "server=(local);user=inf324;pwd=123456;database=texturas";
             SqlCommand cmd = new SqlCommand();
             string sql = string.Empty;
-            sql = sql + "insert into tchompas(ro1,gr1,bl1,ro2,gr2,bl2,ro3,gr3,bl3) values ('" + textBox1.Text + "','" + textBox2.Text + "','" + textBox3.Text + "','" + textBox4.Text + "','" + textBox5.Text + "','" + textBox6.Text + "','" + textBox7.Text + "','" + textBox8.Text + "','" + textBox9.Text + "')";
+            sql = sql + "insert into tchompas(ro1,gr1,bl1,ro2,gr2,bl2,ro3,gr3,bl3) values ('" + ro1 + "','" + gr1 + "','" + bl1 + "','" + ro2 + "','" + gr2 + "','" + bl2 + "','" + ro3 + "','" + gr3 + "','" + bl3 + "')";
             cmd.CommandText = sql;
             cmd.CommandText = sql;
             cmd.CommandType = CommandType.Text;
@@ -183,34 +145,13 @@ namespace WindowsFormsApplication1
             ada.Fill(ds);
             dataGridView1.DataSource = ds.Tables[0];
 
-            textBox1.Text = "";
-            textBox2.Text = "";
-            textBox3.Text = "";
+            limpiar(1);
 
-            textBox4.Text = "";
-            textBox5.Text = "";
-            textBox6.Text = "";
-
-            textBox7.Text = "";
-            textBox8.Text = "";
-            textBox9.Text = "";
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
             Bitmap bmp = new Bitmap(pictureBox1.Image);
-
-            int ro1 = Convert.ToInt32(textBox1.Text);
-            int gr1 = Convert.ToInt32(textBox2.Text);
-            int bl1 = Convert.ToInt32(textBox3.Text);
-
-            int ro2 = Convert.ToInt32(textBox4.Text);
-            int gr2 = Convert.ToInt32(textBox5.Text);
-            int bl2 = Convert.ToInt32(textBox6.Text);
-
-            int ro3 = Convert.ToInt32(textBox7.Text);
-            int gr3 = Convert.ToInt32(textBox8.Text);
-            int bl3 = Convert.ToInt32(textBox9.Text);   
 
             int mR = 0, mG = 0, mB = 0;
             Color c = new Color();
@@ -252,37 +193,118 @@ namespace WindowsFormsApplication1
 
                     }
                 }
-            pictureBox1.Image = bmpR;    
+            pictureBox1.Image = bmpR;
+            limpiar(0);
         }
 
         private void Seleccionar(object sender, DataGridViewCellMouseEventArgs e)
         {
             int indice = e.RowIndex;
 
-            textBox1.Text = dataGridView1.Rows[indice].Cells[1].Value.ToString();
-            textBox2.Text = dataGridView1.Rows[indice].Cells[2].Value.ToString();
-            textBox3.Text = dataGridView1.Rows[indice].Cells[3].Value.ToString();
-            textBox4.Text = dataGridView1.Rows[indice].Cells[4].Value.ToString();
-            textBox5.Text = dataGridView1.Rows[indice].Cells[5].Value.ToString();
-            textBox6.Text = dataGridView1.Rows[indice].Cells[6].Value.ToString();
-            textBox7.Text = dataGridView1.Rows[indice].Cells[7].Value.ToString();
-            textBox8.Text = dataGridView1.Rows[indice].Cells[8].Value.ToString();
-            textBox9.Text = dataGridView1.Rows[indice].Cells[9].Value.ToString();
+            ro1 = Convert.ToInt32(dataGridView1.Rows[indice].Cells[1].Value);
+            gr1 = Convert.ToInt32(dataGridView1.Rows[indice].Cells[2].Value);
+            bl1 = Convert.ToInt32(dataGridView1.Rows[indice].Cells[3].Value);
+
+            ro2 = Convert.ToInt32(dataGridView1.Rows[indice].Cells[4].Value);
+            gr2 = Convert.ToInt32(dataGridView1.Rows[indice].Cells[5].Value);
+            bl2 = Convert.ToInt32(dataGridView1.Rows[indice].Cells[6].Value);
+
+            ro3 = Convert.ToInt32(dataGridView1.Rows[indice].Cells[7].Value);
+            gr3 = Convert.ToInt32(dataGridView1.Rows[indice].Cells[8].Value);
+            bl3 = Convert.ToInt32(dataGridView1.Rows[indice].Cells[9].Value);
+
+            textBox1.Text = ro1 + " " + ro2 + " " + ro3;
+            textBox2.Text = gr1 + " " + gr2 + " " + gr3;
+            textBox3.Text = bl1 + " " + bl2 + " " + bl3;
         }
 
         private void Limpiar_Click(object sender, EventArgs e)
+        {
+            limpiar(1);
+        }
+
+        public void limpiar(int a)
         {
             textBox1.Text = "";
             textBox2.Text = "";
             textBox3.Text = "";
 
-            textBox4.Text = "";
-            textBox5.Text = "";
-            textBox6.Text = "";
+            turno = 1;
 
-            textBox7.Text = "";
-            textBox8.Text = "";
-            textBox9.Text = "";
+            if(a == 1)
+                pictureBox1.Image = original;
         }
+
+        private void Automatico_Click(object sender, EventArgs e)
+        {
+            int tope = Convert.ToInt32(dataGridView1.RowCount);
+
+            for (int ind = 0; ind < tope - 1; ind++)
+            {
+                ro1 = Convert.ToInt32(dataGridView1.Rows[ind].Cells[1].Value);
+                gr1 = Convert.ToInt32(dataGridView1.Rows[ind].Cells[2].Value);
+                bl1 = Convert.ToInt32(dataGridView1.Rows[ind].Cells[3].Value);
+
+                ro2 = Convert.ToInt32(dataGridView1.Rows[ind].Cells[4].Value);
+                gr2 = Convert.ToInt32(dataGridView1.Rows[ind].Cells[5].Value);
+                bl2 = Convert.ToInt32(dataGridView1.Rows[ind].Cells[6].Value);
+
+                ro3 = Convert.ToInt32(dataGridView1.Rows[ind].Cells[7].Value);
+                gr3 = Convert.ToInt32(dataGridView1.Rows[ind].Cells[8].Value);
+                bl3 = Convert.ToInt32(dataGridView1.Rows[ind].Cells[9].Value);
+
+                Bitmap bmp = new Bitmap(pictureBox1.Image);
+
+                int mR = 0, mG = 0, mB = 0;
+                Color c = new Color();
+                Bitmap bmpR = new Bitmap(bmp.Width, bmp.Height);
+                for (int i = 0; i < bmp.Width - 10; i = i + 10)
+                    for (int j = 0; j < bmp.Height - 10; j = j + 10)
+                    {
+                        mR = 0;
+                        mG = 0;
+                        mB = 0;
+
+                        for (int ki = i; ki < i + 10; ki++)
+                            for (int kj = j; kj < j + 10; kj++)
+                            {
+                                c = bmp.GetPixel(ki, kj);
+                                mR = mR + c.R;
+                                mG = mG + c.G;
+                                mB = mB + c.B;
+                            }
+                        mR = mR / 100;
+                        mG = mG / 100;
+                        mB = mB / 100;
+
+                        c = bmp.GetPixel(i, j);
+                        if (((ro1 - 20 < mR) && (mR < ro1 + 20)) && ((gr1 - 20 < mG) && (mG < gr1 + 20)) && ((bl1 - 20 < mB) && (mB < bl1 + 20)) || (((ro2 - 20 < mR) && (mR < ro2 + 20)) && ((gr2 - 20 < mG) && (mG < gr2 + 20)) && ((bl2 - 20 < mB) && (mB < bl2 + 20))) || (((ro3 - 20 < mR) && (mR < ro3 + 20)) && ((gr3 - 20 < mG) && (mG < gr3 + 20)) && ((bl3 - 20 < mB) && (mB < bl3 + 20))))
+                        {
+                            //ind = tope;
+
+                            for (int ki = i; ki < i + 10; ki++)
+                                for (int kj = j; kj < j + 10; kj++)
+                                    bmpR.SetPixel(ki, kj, Color.Fuchsia);
+                        }
+                        else
+                        {
+                            for (int ki = i; ki < i + 10; ki++)
+                                for (int kj = j; kj < j + 10; kj++)
+                                {
+                                    c = bmp.GetPixel(ki, kj);
+                                    bmpR.SetPixel(ki, kj, Color.FromArgb(c.R, c.G, c.B));
+                                }
+
+                        }
+                    }
+                pictureBox1.Image = bmpR;
+                //limpiar(0);
+
+                /*textBox1.Text = ro1 + " " + ro2 + " " + ro3;
+                textBox2.Text = gr1 + " " + gr2 + " " + gr3;
+                textBox3.Text = bl1 + " " + bl2 + " " + bl3;*/
+            }
+        }
+
     }
 }
